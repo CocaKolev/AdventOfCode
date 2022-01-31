@@ -10,39 +10,86 @@ def powerconsumption_import(filepath):
         data_list.append(x)
     return data_list
 
+
+#could make function way more condensed, not going to in interest of time and getting more problems done
+
 def lifesupplyrating(data_list):
 
-    count0, count1 = 0,0
-    o2= 0 
     O2List = data_list
+    stayinloop = True
 
+    #FOR THE 02 SENSOR
     for x in range(0,12):
+        count0, count1 = 0,0
         for y in range(0,len(O2List)):
+            if len(O2List) == 1:
+                stayinloop = False
+                break
             if (O2List[y])[x] == "0":
                 count0 += 1
             else:
                 count1 += 1
-        if count0>count1:
-            remove1(O2List,x)
-            # for y in range(0,len(O2List)):
-            #     if (O2List[y])[x] == "1":
-            #         O2List.remove((O2List[y])[x])
+        if stayinloop:
+            if count0>count1:
+                O2List = remove1(O2List,x)
+                # for y in range(0,len(O2List)):
+                #     if (O2List[y])[x] == "1":
+                #         O2List.remove((O2List[y])[x])
+            else:
+                O2List = remove0(O2List,x)
+                # for y in range(0,len(O2List)):
+                #     if (O2List[y])[x] == "0":
+                #         O2List.remove((O2List[y])[x]))
         else:
-            remove0(O2List,x)
-            # for y in range(0,len(O2List)):
-            #     if (O2List[y])[x] == "0":
-            #         O2List.remove()
+            break
+
+
+    CO2List = data_list
+    stayinloop = True
+#FOR THE C02 SENSOR
+    for x in range(0,12):
+        count0, count1 = 0,0
+        for y in range(0,len(CO2List)):
+            if len(CO2List) == 1:
+                stayinloop = False
+                break
+            if (CO2List[y])[x] == "0":
+                count0 += 1
+            else:
+                count1 += 1
+        if stayinloop:
+            if count0<=count1:
+                CO2List = remove1(CO2List,x)
+            else:
+                CO2List = remove0(CO2List,x)
+        else:
+            break
 
 
 
-    rating = co2 * o2 
+
+    
+    rating = int(O2List[0],2) * int(CO2List[0],2)
     return rating
 
+
+
+
 def remove1(shorteneddata, originalX):
-    return [x for x in shorteneddata if (shorteneddata[x])[originalX] == "1"]
+    newList = []
+    for y in range(0,len(shorteneddata)):
+        if (shorteneddata[y])[originalX] == "0":
+            newList.append((shorteneddata[y]))
+    return newList
+    # return [x for x in shorteneddata if (shorteneddata[x])[originalX] == "1"]
 
 def remove0(shorteneddata, originalX):
-    return [x for x in shorteneddata if (shorteneddata[x])[originalX] == "0"]
+    newList = []
+    for y in range(0,len(shorteneddata)):
+        if (shorteneddata[y])[originalX] == "1":
+            newList.append((shorteneddata[y]))
+    return newList
+    #return [x for x in shorteneddata if (shorteneddata[x])[originalX] == "0"]
 
 def powerconsumption(data_list):
     gamma, epsilon = "", ""
