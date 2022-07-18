@@ -76,7 +76,7 @@ def lifesupplyrating(data_list):
 
 
 def remove1(shorteneddata, originalX):
-    newList = []
+    newList = [ ]
     for y in range(0,len(shorteneddata)):
         if (shorteneddata[y])[originalX] == "0":
             newList.append((shorteneddata[y]))
